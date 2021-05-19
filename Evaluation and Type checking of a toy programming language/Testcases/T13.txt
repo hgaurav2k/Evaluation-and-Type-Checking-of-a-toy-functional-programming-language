@@ -1,0 +1,5 @@
+fun sq( x : int) : int => x TIMES x ; fun f(y : int) : int => let z = 2 TIMES y in (sq z)  end ; 
+(f 3) ;
+
+fun f(x : int) : int -> int => fn(y : int) : int => x PLUS y ; fun g(x : int) : int -> int => (f x) ; (g 4) ;
+ ((g 4) 3)

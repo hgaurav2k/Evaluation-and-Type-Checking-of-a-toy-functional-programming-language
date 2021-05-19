@@ -1,0 +1,16 @@
+fun f( x : int) : int -> int => fn( y : int) : int => y TIMES x ; 
+fun g( x : bool) : int => if NOT x then NEGATE ((f 3) 2) else ((f 1) 1) fi ;
+a = (g TRUE);
+b = (g FALSE);
+a PLUS b;
+a GREATERTHAN b;
+a LESSTHAN b;
+a EQUALS b; 
+TRUE AND FALSE;
+TRUE XOR FALSE;
+TRUE OR FALSE;
+NOT TRUE AND FALSE;
+NOT TRUE OR FALSE;
+(g NOT TRUE AND FALSE);
+(g NOT ((NEGATE 1) EQUALS 1));
+(g NOT ((NEGATE 0) EQUALS 0))

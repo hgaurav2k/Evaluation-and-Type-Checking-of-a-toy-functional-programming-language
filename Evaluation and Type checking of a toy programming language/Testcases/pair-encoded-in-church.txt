@@ -1,0 +1,10 @@
+fun true( x : int ) : int->int => fn( y : int ) : int => x;
+fun false ( x : int) : int -> int => fn( y : int )  : int => y ; 
+((true 4) 5);
+fun pair( x : int) : int->((int->int->int)->int)  => fn( y : int )  :  (int->int->int)->int => fn(f : int->int->int) : int => ((f x) y) ;
+fun fst(p: (int->int ->int)->int) : int => (p true); 
+let
+	x=((pair 4) 5)
+in
+	(fst x)
+end

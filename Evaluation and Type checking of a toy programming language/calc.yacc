@@ -1,0 +1,84 @@
+(* User  declarations *)
+fun lookup "special" = 1000
+  | lookup s = 0 
+
+%%
+(* required declarations *)
+%name Calc
+
+%term
+  ID of string | NUM of int 
+| PLUS | TIMES | MINUS | RPAREN | LPAREN | EOF
+| EQUALS | LET | IN | END | AND | OR | XOR | IMPLIES | IF | THEN | ELSE | FI | FUN | FN | COLON | GIVES | ARROW | INT | BOOL | EQ | NOT  | GREATERTHAN | LESSTHAN | NEGATE | CONST of bool | TERM 
+
+%nonterm PROGRAM of AST.program | STATEMENT of AST.statement | EXP of AST.exp | START of AST.program | DECL of AST.decl | TYPE of AST.typ | FUNC of AST.decl
+
+
+%pos int
+
+(*optional declarations *)
+%eop EOF
+%noshift EOF
+
+(* %header  *)
+%nonassoc GIVES
+%left EQ
+%right ARROW
+%right IF THEN ELSE
+%right IMPLIES 
+%left AND OR XOR EQUALS
+%left GREATERTHAN LESSTHAN
+%left MINUS PLUS
+%left TIMES 
+%right NOT NEGATE
+
+%start START
+
+%verbose
+
+%%
+
+  START: PROGRAM (PROGRAM)
+
+  PROGRAM : STATEMENT TERM PROGRAM (AST.Program(STATEMENT, PROGRAM)) 
+              | STATEMENT (AST.Statement(STATEMENT))
+
+  STATEMENT : DECL  (AST.Decl(DECL))
+              | FUNC  (AST.Decl(FUNC))
+              | EXP  (AST.Expr(EXP))
+
+  DECL: ID EQ EXP (AST.ValDecl(ID, EXP))
+
+  FUNC : FUN ID LPAREN ID COLON TYPE RPAREN COLON TYPE GIVES EXP (AST.Fun(ID1,AST.Fn(ID2,TYPE1,TYPE2,EXP)))
+
+  TYPE : INT (AST.INT)
+  | BOOL (AST.BOOL)
+  | TYPE ARROW TYPE (AST.ARROW(TYPE1, TYPE2))
+  | LPAREN TYPE RPAREN (TYPE)
+
+  EXP: NUM (AST.NumExp(NUM))
+  | CONST (AST.BoolExp(CONST))
+  | LPAREN EXP RPAREN (EXP)
+  | ID (AST.VarExp(ID))
+  | EXP PLUS EXP (AST.BinExp(AST.PLUS, EXP1,  EXP2))
+  | EXP MINUS EXP (AST.BinExp(AST.MINUS, EXP1 , EXP2))
+  | EXP TIMES  EXP (AST.BinExp(AST.TIMES,  EXP1, EXP2))
+  | LET DECL IN EXP END (AST.LetExp(DECL, EXP))
+  | EXP EQUALS EXP (AST.BinExp(AST.EQUALS, EXP1, EXP2))
+  | NEGATE EXP (AST.UnExp(AST.NEGATE,EXP))
+  | EXP LESSTHAN EXP (AST.BinExp(AST.LESSTHAN , EXP1, EXP2))
+  | EXP GREATERTHAN EXP (AST.BinExp(AST.GREATERTHAN, EXP1, EXP2))
+  | EXP AND EXP( AST.BinExp(AST.AND , EXP1, EXP2) )
+  | EXP OR EXP( AST.BinExp(AST.OR , EXP1, EXP2) )
+  | EXP IMPLIES EXP( AST.BinExp(AST.IMPLIES , EXP1, EXP2) )
+  | EXP XOR EXP( AST.BinExp(AST.XOR, EXP1 , EXP2) )
+  | NOT EXP ( AST.UnExp(AST.NOT , EXP) )
+  | IF EXP THEN EXP ELSE EXP FI ( AST.CondExp(EXP1 , EXP2 , EXP3))
+  | LPAREN EXP EXP RPAREN (AST.AppExp(EXP1 ,EXP2))
+  | FN LPAREN ID COLON TYPE RPAREN COLON TYPE GIVES EXP (AST.Fn(ID,TYPE1,TYPE2,EXP))
+  | LET FUNC IN EXP END (AST.LetExp(FUNC, EXP))
+
+
+  
+  
+

@@ -1,0 +1,4 @@
+fun f(x : int) : int ->(int -> int) => fn( y : int ) : int->int => fn( z : int) : int => x TIMES y TIMES z;
+(f  3);
+((f 3) 4);
+(((f 3) 4) 5)

@@ -1,0 +1,15 @@
+
+let
+	z=4
+in
+	let
+		fun f(x:int) : int => x PLUS z 
+	in
+		f
+	end
+end;
+
+
+z = 5 ; 
+fun f(x : int):int => x PLUS z ; 
+f

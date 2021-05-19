@@ -1,0 +1,11 @@
+fun h(x: int) : bool => if x EQUALS 1 then TRUE else FALSE fi ;
+fun of(q : bool -> int) : int -> int => fn( x : int) : int => (q (h x)) ; 
+let 
+	f = fn(g:int->int) : int => (g (g 1))
+in
+	let 
+		fun g( x : bool) : int => if x then 3 else 5 fi
+	in
+		(f (of g)) 
+	end
+end

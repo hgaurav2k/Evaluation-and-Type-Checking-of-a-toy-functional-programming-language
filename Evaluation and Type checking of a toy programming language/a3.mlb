@@ -1,0 +1,13 @@
+local
+ $(SML_LIB)/basis/basis.mlb
+ $(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
+ ast.sml
+ calc.yacc.sig
+ calc.yacc.sml
+ calc.lex.sml
+ evaluator.sml
+ type-checker.sml
+in
+ a3.sml
+end
+
